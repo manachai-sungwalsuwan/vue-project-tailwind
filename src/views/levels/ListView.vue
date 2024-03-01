@@ -1,7 +1,8 @@
 <script setup>
-import AdminLayout from "@/layouts/AdminLayout.vue";
+import AdminLayout from "@/layouts/AdminLayout.vue"
 import ButtonEdit from "@/components/ButtonEdit.vue"
 import ButtonDelete from "@/components/ButtonDelete.vue"
+import Pagination from "@/components/Pagination.vue"
 
 const dataList = [
   {
@@ -52,6 +53,7 @@ const dataList = [
           </tbody>
         </table>
       </div>
+      <Pagination></Pagination>
     </section>
     <!-- /card -->
   </AdminLayout>

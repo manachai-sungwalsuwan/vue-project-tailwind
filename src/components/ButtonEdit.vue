@@ -1,6 +1,10 @@
+<script setup>
+import { PencilSquareIcon } from '@heroicons/vue/20/solid'
+</script>
+
 <template>
   <button type="button" class="btn btn-warning btn-sm">
-    <svg
+    <!-- <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
@@ -12,6 +16,7 @@
       <path
         d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z"
       />
-    </svg>
+    </svg> -->
+    <PencilSquareIcon class="w-4 h-4"></PencilSquareIcon>
   </button>
 </template>

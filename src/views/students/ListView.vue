@@ -2,6 +2,7 @@
 import AdminLayout from "@/layouts/AdminLayout.vue"
 import ButtonEdit from "@/components/ButtonEdit.vue"
 import ButtonDelete from "@/components/ButtonDelete.vue"
+import Pagination from "@/components/Pagination.vue"
 
 const studentList = [
   {
@@ -41,7 +42,9 @@ const studentList = [
           <h2 class="card-title grow">
             <!-- <a class="link-hover link">Recent user transactions</a> -->
           </h2>
-          <RouterLink to="/students/create" class="btn btn-primary float-right">Create</RouterLink>
+          <RouterLink to="/students/create" class="btn btn-primary float-right"
+            >Create</RouterLink
+          >
         </div>
       </div>
       <div class="overflow-x-auto">
@@ -69,6 +72,7 @@ const studentList = [
           </tbody>
         </table>
       </div>
+      <Pagination></Pagination>
     </section>
     <!-- /card -->
   </AdminLayout>
