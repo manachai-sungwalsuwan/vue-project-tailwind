@@ -1,5 +1,7 @@
 <script setup>
 import AdminLayout from "@/layouts/AdminLayout.vue";
+import ButtonEdit from "@/components/ButtonEdit.vue"
+import ButtonDelete from "@/components/ButtonDelete.vue"
 
 const dataList = [
   {
@@ -50,18 +52,8 @@ const dataList = [
             <tr v-for="data in dataList" :key="data.levelId" class="hover">
               <td>
                 <div class="flex justify-center gap-2">
-                  <button type="button" class="btn btn-warning btn-sm">
-                    <svg
-                      data-src="https://unpkg.com/heroicons/20/solid/pencil-square.svg"
-                      class="h-4 w-4"
-                    ></svg>
-                  </button>
-                  <button type="button" class="btn btn-error btn-sm">
-                    <svg
-                      data-src="https://unpkg.com/heroicons/20/solid/trash.svg"
-                      class="h-4 w-4"
-                    ></svg>
-                  </button>
+                  <ButtonEdit></ButtonEdit>
+                  <ButtonDelete></ButtonDelete>
                 </div>
               </td>
               <td>{{ data.topicCode }}</td>

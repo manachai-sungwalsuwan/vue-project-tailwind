@@ -41,7 +41,7 @@ const menuList = [
 const activeMenu = ref("");
 
 onMounted(() => {
-  activeMenu.value = route.name;
+  activeMenu.value = route.name.toLocaleLowerCase();
 });
 </script>
 
@@ -133,7 +133,7 @@ onMounted(() => {
           <li v-for="menu in menuList" :key="menu.name">
             <RouterLink
               :to="menu.route"
-              :class="menu.route === activeMenu ? 'active' : ''"
+              :class="menu.route.toLocaleLowerCase().split('/')[1] === activeMenu ? 'active' : ''"
             >
               <span v-html="menu.icon"></span>
               {{ menu.name }}
