@@ -2,6 +2,8 @@
 import { ref, onMounted } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 
+import { BeakerIcon } from "@heroicons/vue/20/solid";
+
 const route = useRoute();
 
 const menuList = [
@@ -28,7 +30,8 @@ const menuList = [
                 class="h-5 w-5"
               ></svg>`,
     route: "/teachers",
-  },{
+  },
+  {
     name: "Schedule",
     icon: `<svg
                 data-src="https://unpkg.com/heroicons/20/solid/calendar-days.svg"
@@ -66,7 +69,9 @@ onMounted(() => {
             ></svg>
           </label>
           <div class="grow">
-            <h1 class="lg:text-2xl lg:font-light">{{ activeMenu.toLocaleUpperCase() }}</h1>
+            <h1 class="lg:text-2xl lg:font-light">
+              {{ activeMenu.toLocaleUpperCase() }}
+            </h1>
           </div>
           <!-- dropdown -->
           <div class="dropdown-end dropdown z-10">
@@ -83,7 +88,7 @@ onMounted(() => {
                 <a>Profile</a>
               </li>
               <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
+              <li><RouterLink to="/login">Logout</RouterLink></li>
             </ul>
           </div>
           <!-- /dropdown -->
@@ -100,47 +105,26 @@ onMounted(() => {
       <nav
         class="flex min-h-screen w-72 flex-col gap-2 overflow-y-auto bg-base-100 px-6 py-10"
       >
-        <div class="mx-4 flex items-center gap-2 font-black">
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 1024 1024"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              x="256"
-              y="670.72"
-              width="512"
-              height="256"
-              rx="128"
-              class="fill-base-content"
-            />
-            <circle cx="512" cy="353.28" r="256" class="fill-base-content" />
-            <circle
-              cx="512"
-              cy="353.28"
-              r="261"
-              stroke="black"
-              stroke-opacity="0.2"
-              stroke-width="10"
-            />
-            <circle cx="512" cy="353.28" r="114.688" class="fill-base-100" />
-          </svg>
+        <div class="mx-4 flex items-center gap-2 font-black text-2xl">
+          <BeakerIcon class="h-6 w-6 text-orange-500"></BeakerIcon>
           SLS
         </div>
         <ul class="menu">
           <li v-for="menu in menuList" :key="menu.name">
             <RouterLink
               :to="menu.route"
-              :class="menu.route.toLocaleLowerCase().split('/')[1] === activeMenu ? 'active' : ''"
+              :class="
+                menu.route.toLocaleLowerCase().split('/')[1] === activeMenu
+                  ? 'active'
+                  : ''
+              "
             >
               <span v-html="menu.icon"></span>
               {{ menu.name }}
             </RouterLink>
           </li>
           <li>
-            <details>
+            <details :open="['topics', 'levels'].includes(activeMenu)">
               <summary>
                 <svg
                   data-src="https://unpkg.com/heroicons/20/solid/adjustments-vertical.svg"

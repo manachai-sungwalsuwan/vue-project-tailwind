@@ -1,4 +1,6 @@
 <script setup>
+import { RouterLink } from "vue-router";
+
 import AdminLayout from "@/layouts/AdminLayout.vue"
 import ButtonEdit from "@/components/ButtonEdit.vue"
 import ButtonDelete from "@/components/ButtonDelete.vue"
@@ -8,22 +10,27 @@ const dataList = [
   {
     topicCode: "S1001",
     topicName: "Body sensory",
+    levelName: "Level 1"
   },
   {
     topicCode: "S1002",
     topicName: "Dissolution",
+    levelName: "Level 1"
   },
   {
     topicCode: "S1003",
     topicName: "Natural indicator",
+    levelName: "Level 1"
   },
   {
     topicCode: "S1004",
     topicName: "Liquid density",
+    levelName: "Level 1"
   },
   {
     topicCode: "S1005",
     topicName: "Water surface tension",
+    levelName: "Level 1"
   },
 ]
 </script>
@@ -37,7 +44,7 @@ const dataList = [
           <h2 class="card-title grow">
             <!-- <a class="link-hover link">Recent user transactions</a> -->
           </h2>
-          <button class="btn btn-primary float-right">Create</button>
+          <RouterLink to="/topics/create" class="btn btn-primary float-right">Create</RouterLink>
         </div>
       </div>
       <div class="overflow-x-auto">
@@ -47,6 +54,7 @@ const dataList = [
               <th class="text-center w-32">#</th>
               <th class="text-center">Topic Code</th>
               <th class="text-center">Topic Name</th>
+              <th class="text-center">Level</th>
             </tr>
           </thead>
           <tbody>
@@ -59,6 +67,7 @@ const dataList = [
               </td>
               <td>{{ data.topicCode }}</td>
               <td>{{ data.topicName }}</td>
+              <td>{{ data.levelName }}</td>
             </tr>
           </tbody>
         </table>

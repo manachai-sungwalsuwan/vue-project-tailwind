@@ -1,12 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Login from '@/views/LoginView.vue'
 import DashBoard from '@/views/DashBoardView.vue'
+
 import StudentList from '@/views/students/ListView.vue'
 import StudentCreate from '@/views/students/CreateView.vue'
 
 import TeacherList from '@/views/teachers/ListView.vue'
+import TeacherCreate from '@/views/teachers/CreateView.vue'
+
 import ScheduleList from '@/views/schedules/ListView.vue'
 import LevelViewList from '@/views/levels/ListView.vue'
+
 import TopicViewList from '@/views/topics/ListView.vue'
+import TopicCreate from '@/views/topics/CreateView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +20,11 @@ const router = createRouter({
         {
             path: '/',
             redirect: { path: "/dashboard" },
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login
         },
         {
             path: '/dashboard',
@@ -31,9 +42,24 @@ const router = createRouter({
             component: StudentCreate
         },
         {
+            path: '/students/edit/:id',
+            name: 'students-edit',
+            component: StudentCreate
+        },
+        {
             path: '/teachers',
             name: 'teachers',
             component: TeacherList
+        },
+        {
+            path: '/teachers/create',
+            name: 'teachers-create',
+            component: TeacherCreate
+        },
+        {
+            path: '/teachers/edit/:id',
+            name: 'teachers-edit',
+            component: TeacherCreate
         },
         {
             path: '/schedules',
@@ -49,6 +75,16 @@ const router = createRouter({
             path: '/topics',
             name: 'topics',
             component: TopicViewList
+        },
+        {
+            path: '/topics/create',
+            name: 'topics-create',
+            component: TopicCreate
+        },
+        {
+            path: '/topics/edit/:id',
+            name: 'topics-edit',
+            component: TopicCreate
         }
     ]
 })

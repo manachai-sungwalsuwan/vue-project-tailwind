@@ -1,4 +1,6 @@
 <script setup>
+import { RouterLink } from "vue-router";
+
 import AdminLayout from "@/layouts/AdminLayout.vue"
 import ButtonEdit from "@/components/ButtonEdit.vue"
 import ButtonDelete from "@/components/ButtonDelete.vue"
@@ -42,7 +44,9 @@ const studentList = [
           <h2 class="card-title grow">
             <!-- <a class="link-hover link">Recent user transactions</a> -->
           </h2>
-          <button class="btn btn-primary float-right">Create</button>
+          <RouterLink to="/teachers/create" class="btn btn-primary float-right"
+            >Create</RouterLink
+          >
         </div>
       </div>
       <div class="overflow-x-auto">

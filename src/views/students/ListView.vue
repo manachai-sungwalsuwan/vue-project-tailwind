@@ -1,8 +1,10 @@
 <script setup>
-import AdminLayout from "@/layouts/AdminLayout.vue"
-import ButtonEdit from "@/components/ButtonEdit.vue"
-import ButtonDelete from "@/components/ButtonDelete.vue"
-import Pagination from "@/components/Pagination.vue"
+import { RouterLink } from "vue-router";
+
+import AdminLayout from "@/layouts/AdminLayout.vue";
+import ButtonEdit from "@/components/ButtonEdit.vue";
+import ButtonDelete from "@/components/ButtonDelete.vue";
+import Pagination from "@/components/Pagination.vue";
 
 const studentList = [
   {
@@ -30,7 +32,7 @@ const studentList = [
     nickName: "Dannye",
     parentName: "Jenilee Reichartz",
   },
-]
+];
 </script>
 
 <template>

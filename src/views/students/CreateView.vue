@@ -1,12 +1,56 @@
 <script setup>
-import { RouterLink } from "vue-router";
+import { ref, reactive, onMounted } from "vue";
+import { useRouter, useRoute, RouterLink } from "vue-router";
+import Swal from "sweetalert2";
 import AdminLayout from "@/layouts/AdminLayout.vue";
+
+const router = useRouter();
+const route = useRoute();
+
+const studentIndex = ref(-1);
+const mode = ref("ADD");
+
+const formData = reactive({
+  studentFirstName: "",
+  studentLastName: "",
+  studentNickName: "",
+});
+
+const submitHandle = () => {
+  try {
+    if (mode.value === "EDIT") {
+    } else {
+    }
+    Swal.fire({
+      title: "Successfully",
+      text: mode.value === "EDIT" ? "updated" : "created",
+      icon: "success",
+    }).then(() => {
+      router.push({ name: "students" });
+    });
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+    });
+  }
+};
+
+onMounted(() => {
+  if (route.params.id) {
+    studentIndex.value = route.params.id;
+    mode.value = "EDIT";
+    console.log(route.params.id);
+    // get data
+  }
+});
 </script>
 
 <template>
   <AdminLayout>
     <section class="card col-span-12 bg-base-100">
-      <form class="card-body">
+      <form class="card-body" @submit.prevent="submitHandle">
         <div class="grid grid-cols-3 gap-2">
           <div class="form-control">
             <label class="label">
@@ -16,6 +60,7 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
               type="text"
               required=""
               class="input input-bordered font-mono"
+              v-model="formData.studentFirstName"
             />
           </div>
           <div class="form-control">
@@ -26,6 +71,7 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
               type="text"
               required=""
               class="input input-bordered font-mono"
+              v-model="formData.studentLastName"
             />
           </div>
           <div class="form-control">
@@ -36,6 +82,7 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
               type="text"
               required=""
               class="input input-bordered font-mono"
+              v-model="formData.studentNickName"
             />
           </div>
         </div>
@@ -131,17 +178,17 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
           <input type="text" class="input input-bordered" />
         </div>
         <div class="form-control">
-          <div class="flex items-end py-4">
-            <button class="btn btn-primary grow">บันทึก</button>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">บันทึก</button>
           </div>
         </div>
       </form>
     </section>
-    
+
     <div class="form-control">
-        <div class="flex">
-            <RouterLink to="/students" class="btn btn-outline">Back</RouterLink>
-        </div>
+      <div class="flex">
+        <RouterLink to="/students" class="btn btn-outline">Back</RouterLink>
       </div>
+    </div>
   </AdminLayout>
 </template>
