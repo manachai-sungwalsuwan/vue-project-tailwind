@@ -9,6 +9,11 @@ import TeacherList from '@/views/teachers/ListView.vue'
 import TeacherCreate from '@/views/teachers/CreateView.vue'
 
 import ScheduleList from '@/views/schedules/ListView.vue'
+import ScheduleCreate from '@/views/schedules/CreateView.vue'
+
+import CampList from '@/views/camps/ListView.vue'
+import CampCreate from '@/views/camps/CreateView.vue'
+
 import LevelViewList from '@/views/levels/ListView.vue'
 
 import TopicViewList from '@/views/topics/ListView.vue'
@@ -65,6 +70,31 @@ const router = createRouter({
             path: '/schedules',
             name: 'schedules',
             component: ScheduleList
+        },
+        {
+            path: '/schedules/create',
+            name: 'schedules-create',
+            component: ScheduleCreate
+        },
+        {
+            path: '/schedules/edit/:id',
+            name: 'schedules-edit',
+            component: ScheduleCreate
+        },
+        {
+            path: '/camps',
+            name: 'camps',
+            component: CampList,
+        },
+        {
+            path: '/camps/create',
+            name: 'camps-create',
+            component: CampCreate
+        },
+        {
+            path: '/camps/edit/:id',
+            name: 'camps-edit',
+            component: CampCreate
         },
         {
             path: '/levels',

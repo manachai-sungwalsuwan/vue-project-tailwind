@@ -39,6 +39,14 @@ const menuList = [
               ></svg>`,
     route: "/schedules",
   },
+  {
+    name: "Camp",
+    icon: `<svg
+                data-src="https://unpkg.com/heroicons/20/solid/academic-cap.svg"
+                class="h-5 w-5"
+              ></svg>`,
+    route: "/camps",
+  },
 ];
 
 const activeMenu = ref("");
