@@ -18,7 +18,7 @@ const menuList = [
   {
     name: "Student",
     icon: `<svg
-                data-src="https://unpkg.com/heroicons/20/solid/user.svg"
+                data-src="https://unpkg.com/heroicons/20/solid/user-group.svg"
                 class="h-5 w-5"
               ></svg>`,
     route: "/students",
@@ -95,7 +95,6 @@ onMounted(() => {
               <li>
                 <a>Profile</a>
               </li>
-              <li><a>Settings</a></li>
               <li><RouterLink to="/login">Logout</RouterLink></li>
             </ul>
           </div>
@@ -132,7 +131,7 @@ onMounted(() => {
             </RouterLink>
           </li>
           <li>
-            <details :open="['topics', 'levels'].includes(activeMenu)">
+            <details :open="['topics', 'levels', 'stores'].includes(activeMenu)">
               <summary>
                 <svg
                   data-src="https://unpkg.com/heroicons/20/solid/adjustments-vertical.svg"
@@ -157,6 +156,14 @@ onMounted(() => {
                     :class="'levels' === activeMenu ? 'active' : ''"
                   >
                     Levels
+                  </RouterLink>
+                </li>
+                <li>
+                  <RouterLink
+                    to="/stores"
+                    :class="'stores' === activeMenu ? 'active' : ''"
+                  >
+                    Stores
                   </RouterLink>
                 </li>
               </ul>

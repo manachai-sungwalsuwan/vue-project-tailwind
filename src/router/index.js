@@ -4,6 +4,7 @@ import DashBoard from '@/views/DashBoardView.vue'
 
 import StudentList from '@/views/students/ListView.vue'
 import StudentCreate from '@/views/students/CreateView.vue'
+import StudentDetail from '@/views/students/DetailView.vue'
 
 import TeacherList from '@/views/teachers/ListView.vue'
 import TeacherCreate from '@/views/teachers/CreateView.vue'
@@ -18,6 +19,8 @@ import LevelViewList from '@/views/levels/ListView.vue'
 
 import TopicViewList from '@/views/topics/ListView.vue'
 import TopicCreate from '@/views/topics/CreateView.vue'
+
+import StoreList from '@/views/stores/ListView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +53,11 @@ const router = createRouter({
             path: '/students/edit/:id',
             name: 'students-edit',
             component: StudentCreate
+        },
+        {
+            path: '/students/detail/:id',
+            name: 'students-detail',
+            component: StudentDetail
         },
         {
             path: '/teachers',
@@ -115,7 +123,12 @@ const router = createRouter({
             path: '/topics/edit/:id',
             name: 'topics-edit',
             component: TopicCreate
-        }
+        },
+        {
+            path: '/stores',
+            name: 'stores',
+            component: StoreList
+        },
     ]
 })
 
