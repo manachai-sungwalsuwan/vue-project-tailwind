@@ -10,7 +10,7 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
         <div class="grid grid-cols-2 gap-2">
           <div class="form-control">
             <label class="label">
-              <span class="label-text">Topic Code</span>
+              <span class="label-text">Username</span>
             </label>
             <input
               type="text"
@@ -20,10 +20,10 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
           </div>
           <div class="form-control">
             <label class="label">
-              <span class="label-text">Topic Name</span>
+              <span class="label-text">Password</span>
             </label>
             <input
-              type="text"
+              type="password"
               required=""
               class="input input-bordered font-mono"
             />
@@ -31,22 +31,26 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div class="form-control">
-						<label class="label">
-							<span class="label-text">Level</span>
-						</label>
-						<select class="select select-bordered" required>
-							<option disabled="" selected="" value="">== select ==</option>
-							<option value="level1">Level 1</option>
-							<option value="level2">Level 2</option>
-							<option value="level3">Level 3</option>
-						</select>
-					</div>
+            <label class="label">
+              <span class="label-text">Fullname</span>
+            </label>
+            <input
+              type="text"
+              required=""
+              class="input input-bordered font-mono"
+            />
+          </div>
           <div class="form-control">
-						<label class="label">
-							<span class="label-text">Attachment</span>
-						</label>
-						<input type="file" class="file-input w-full max-w-xs">
-					</div>
+            <label class="label">
+              <span class="label-text">Role</span>
+            </label>
+            <select class="select select-bordered" required>
+							<option disabled="" selected="" value="">== select ==</option>
+							<option value="1">Administration</option>
+							<option value="2">Manager</option>
+							<option value="3">Teacher</option>
+						</select>
+          </div>
         </div>
         <div class="form-control">
           <div class="text-center">
@@ -58,7 +62,7 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
     
     <div class="form-control">
         <div class="flex">
-            <RouterLink to="/topics" class="btn btn-outline">Back</RouterLink>
+            <RouterLink to="/users" class="btn btn-outline">Back</RouterLink>
         </div>
       </div>
   </AdminLayout>

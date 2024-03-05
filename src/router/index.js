@@ -15,12 +15,17 @@ import ScheduleCreate from '@/views/schedules/CreateView.vue'
 import CampList from '@/views/camps/ListView.vue'
 import CampCreate from '@/views/camps/CreateView.vue'
 
-import LevelViewList from '@/views/levels/ListView.vue'
+import LevelList from '@/views/levels/ListView.vue'
 
-import TopicViewList from '@/views/topics/ListView.vue'
+import TopicList from '@/views/topics/ListView.vue'
 import TopicCreate from '@/views/topics/CreateView.vue'
 
 import StoreList from '@/views/stores/ListView.vue'
+
+import UserList from '@/views/users/ListView.vue'
+import UserCreate from '@/views/users/CreateView.vue'
+
+import RoleList from '@/views/roles/ListView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -107,12 +112,12 @@ const router = createRouter({
         {
             path: '/levels',
             name: 'levels',
-            component: LevelViewList
+            component: LevelList
         },
         {
             path: '/topics',
             name: 'topics',
-            component: TopicViewList
+            component: TopicList
         },
         {
             path: '/topics/create',
@@ -128,6 +133,21 @@ const router = createRouter({
             path: '/stores',
             name: 'stores',
             component: StoreList
+        },
+        {
+            path: '/users',
+            name: 'users',
+            component: UserList
+        },
+        {
+            path: '/users/create',
+            name: 'users-create',
+            component: UserCreate
+        },
+        {
+            path: '/roles',
+            name: 'roles',
+            component: RoleList
         },
     ]
 })

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/vue": "^2.1.1",
+    "@vueform/multiselect": "^2.6.6",
     "pinia": "^2.1.7",
     "sweetalert2": "^11.10.5",
     "vue": "^3.4.19",

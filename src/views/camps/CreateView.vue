@@ -1,5 +1,18 @@
 <script setup>
+import { ref } from "vue";
 import AdminLayout from "@/layouts/AdminLayout.vue";
+import Multiselect from "@vueform/multiselect";
+
+const selectedValue = ref(null);
+const options = [
+  { value: "S1004", label: "S1004 ความหนาแน่นของของเหลว" },
+  { value: "S1026", label: "S1026 ความสัมพันธ์ของสมองและภาพลวงตา" },
+  { value: "S1044", label: "S1044 การแยกสารผสมอย่างง่าย" },
+  {
+    value: "S1001",
+    label: "S1001 ประสาทสัมผัสของร่างกาย (เสริมเรื่องส่วนต่างๆของร่างกาย)",
+  },
+];
 </script>
 
 <template>
@@ -33,7 +46,14 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
             <label class="label">
               <span class="label-text">Topic</span>
             </label>
-            <select class="select select-bordered" required>
+            <Multiselect
+              v-model="selectedValue"
+              mode="tags"
+              placeholder="Choose a topic"
+              :searchable="true"
+              :options="options"
+            />
+            <!-- <select class="select select-bordered" required>
               <option disabled="" selected="" value="">== select ==</option>
               <option value="S1004">S1004 ความหนาแน่นของของเหลว</option>
               <option value="S1026">
@@ -43,7 +63,7 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
               <option value="S1001">
                 S1001 ประสาทสัมผัสของร่างกาย (เสริมเรื่องส่วนต่างๆของร่างกาย)
               </option>
-            </select>
+            </select> -->
           </div>
         </div>
         <div class="form-control">
@@ -61,3 +81,5 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
     </div>
   </AdminLayout>
 </template>
+
+<style src="@vueform/multiselect/themes/default.css"></style>

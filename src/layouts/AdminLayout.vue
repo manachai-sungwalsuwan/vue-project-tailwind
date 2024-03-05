@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 
 import { BeakerIcon } from "@heroicons/vue/20/solid";
@@ -8,7 +8,7 @@ const route = useRoute();
 
 const menuList = [
   {
-    name: "Dashboaard",
+    name: "Dashboard",
     icon: `<svg
                 data-src="https://unpkg.com/heroicons/20/solid/home.svg"
                 class="h-5 w-5"
@@ -16,7 +16,7 @@ const menuList = [
     route: "/dashboard",
   },
   {
-    name: "Student",
+    name: "Students",
     icon: `<svg
                 data-src="https://unpkg.com/heroicons/20/solid/user-group.svg"
                 class="h-5 w-5"
@@ -24,7 +24,7 @@ const menuList = [
     route: "/students",
   },
   {
-    name: "Teacher",
+    name: "Teachers",
     icon: `<svg
                 data-src="https://unpkg.com/heroicons/20/solid/user.svg"
                 class="h-5 w-5"
@@ -32,7 +32,7 @@ const menuList = [
     route: "/teachers",
   },
   {
-    name: "Schedule",
+    name: "Schedules",
     icon: `<svg
                 data-src="https://unpkg.com/heroicons/20/solid/calendar-days.svg"
                 class="h-5 w-5"
@@ -40,7 +40,7 @@ const menuList = [
     route: "/schedules",
   },
   {
-    name: "Camp",
+    name: "Camps",
     icon: `<svg
                 data-src="https://unpkg.com/heroicons/20/solid/academic-cap.svg"
                 class="h-5 w-5"
@@ -49,11 +49,25 @@ const menuList = [
   },
 ];
 
+const subMenuList = [
+  "users",
+  "users-create",
+  "roles",
+  "topics",
+  "topics-create",
+  "levels",
+  "stores",
+];
+
 const activeMenu = ref("");
 
 onMounted(() => {
   activeMenu.value = route.name.toLocaleLowerCase();
 });
+
+const isActive = ((menu) => {
+  return route.path.toLocaleLowerCase().split('/')[1] === menu.split('/')[1] ? 'active' : ''
+})
 </script>
 
 <template>
@@ -81,11 +95,13 @@ onMounted(() => {
               {{ activeMenu.toLocaleUpperCase() }}
             </h1>
           </div>
+          <div><span>Store: Head Quarter</span></div>
           <!-- dropdown -->
           <div class="dropdown-end dropdown z-10">
             <div tabindex="0" class="avatar btn btn-circle btn-ghost">
               <div class="w-10 rounded-full">
-                <img src="https://picsum.photos/80/80?5" />
+                <!-- <img src="https://picsum.photos/80/80?5" /> -->
+                <img src="@/assets/avatar.jpg" />
               </div>
             </div>
             <ul
@@ -120,10 +136,10 @@ onMounted(() => {
           <li v-for="menu in menuList" :key="menu.name">
             <RouterLink
               :to="menu.route"
-              :class="
-                menu.route.toLocaleLowerCase().split('/')[1] === activeMenu
-                  ? 'active'
-                  : ''
+              :class="isActive(menu.route)
+                // menu.route.toLocaleLowerCase().split('/')[1] === activeMenu
+                //   ? 'active'
+                //   : ''
               "
             >
               <span v-html="menu.icon"></span>
@@ -131,7 +147,7 @@ onMounted(() => {
             </RouterLink>
           </li>
           <li>
-            <details :open="['topics', 'levels', 'stores'].includes(activeMenu)">
+            <details :open="subMenuList.includes(activeMenu)">
               <summary>
                 <svg
                   data-src="https://unpkg.com/heroicons/20/solid/adjustments-vertical.svg"
@@ -140,12 +156,36 @@ onMounted(() => {
                 Settings
               </summary>
               <ul>
-                <li><a>Users</a></li>
-                <li><a>Roles</a></li>
+                <li>
+                  <RouterLink
+                    to="/users"
+                    :class="
+                      ['users', 'users-create'].includes(activeMenu)
+                        ? 'active'
+                        : ''
+                    "
+                    >Users</RouterLink
+                  >
+                </li>
+                <li>
+                  <RouterLink
+                    to="/roles"
+                    :class="
+                      ['roles', 'roles-create'].includes(activeMenu)
+                        ? 'active'
+                        : ''
+                    "
+                    >Roles</RouterLink
+                  >
+                </li>
                 <li>
                   <RouterLink
                     to="/topics"
-                    :class="'topics' === activeMenu ? 'active' : ''"
+                    :class="
+                      ['topics', 'topics-create'].includes(activeMenu)
+                        ? 'active'
+                        : ''
+                    "
                   >
                     Topics
                   </RouterLink>
@@ -153,7 +193,11 @@ onMounted(() => {
                 <li>
                   <RouterLink
                     to="/levels"
-                    :class="'levels' === activeMenu ? 'active' : ''"
+                    :class="
+                      ['levels', 'levels-create'].includes(activeMenu)
+                        ? 'active'
+                        : ''
+                    "
                   >
                     Levels
                   </RouterLink>
@@ -161,7 +205,11 @@ onMounted(() => {
                 <li>
                   <RouterLink
                     to="/stores"
-                    :class="'stores' === activeMenu ? 'active' : ''"
+                    :class="
+                      ['stores', 'stores-create'].includes(activeMenu)
+                        ? 'active'
+                        : ''
+                    "
                   >
                     Stores
                   </RouterLink>
