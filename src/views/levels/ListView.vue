@@ -1,8 +1,8 @@
 <script setup>
-import AdminLayout from "@/layouts/AdminLayout.vue"
-import ButtonEdit from "@/components/ButtonEdit.vue"
-import ButtonDelete from "@/components/ButtonDelete.vue"
-import Pagination from "@/components/Pagination.vue"
+import AdminLayout from "@/layouts/AdminLayout.vue";
+import ButtonEdit from "@/components/ButtonEdit.vue";
+import ButtonDelete from "@/components/ButtonDelete.vue";
+import Pagination from "@/components/Pagination.vue";
 
 const dataList = [
   {
@@ -17,7 +17,7 @@ const dataList = [
     levelId: "3",
     levelName: "Level 3",
   },
-]
+];
 </script>
 
 <template>
@@ -29,7 +29,12 @@ const dataList = [
           <h2 class="card-title grow">
             <!-- <a class="link-hover link">Recent user transactions</a> -->
           </h2>
-          <button class="btn btn-primary float-right">Create</button>
+          <button
+            class="btn btn-primary float-right"
+            onclick="levelModal.showModal()"
+          >
+            Create
+          </button>
         </div>
       </div>
       <div class="overflow-x-auto">
@@ -56,5 +61,30 @@ const dataList = [
       <Pagination></Pagination>
     </section>
     <!-- /card -->
+
+    <dialog id="levelModal" class="modal">
+      <div class="modal-box">
+        <form method="dialog">
+          <button
+            class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          >
+            ✕
+          </button>
+        </form>
+        <h3 class="font-bold text-lg">Create Level</h3>
+        <div class="form-control w-full mt-3">
+          <div class="label">
+            <span class="label-text">Level</span>
+          </div>
+          <input
+            type="text"
+            class="input input-bordered w-full"
+          />
+        </div>
+        <div class="modal-action">
+          <button class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </dialog>
   </AdminLayout>
 </template>

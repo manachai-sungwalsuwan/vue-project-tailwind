@@ -85,9 +85,9 @@ const studentList = [
             </select>
           </div>
         </div>
-        <div class="form-control">
+        <div class="form-control mt-3">
           <div class="text-center">
-            <button type="submit" class="btn btn-primary">บันทึก</button>
+            <button type="submit" class="btn btn-primary">Save</button>
           </div>
         </div>
       </form>

@@ -52,9 +52,9 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
 						</select>
           </div>
         </div>
-        <div class="form-control">
+        <div class="form-control mt-3">
           <div class="text-center">
-            <button class="btn btn-primary">บันทึก</button>
+            <button class="btn btn-primary">Save</button>
           </div>
         </div>
       </form>

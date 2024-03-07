@@ -177,9 +177,9 @@ onMounted(() => {
           </label>
           <input type="text" class="input input-bordered" />
         </div>
-        <div class="form-control">
+        <div class="form-control mt-3">
           <div class="text-center">
-            <button type="submit" class="btn btn-primary">บันทึก</button>
+            <button type="submit" class="btn btn-primary">Save</button>
           </div>
         </div>
       </form>

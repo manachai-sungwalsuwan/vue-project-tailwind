@@ -39,18 +39,18 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
             />
           </div>
         </div>
-        <div class="form-control">
+        <div class="form-control mt-3">
           <div class="text-center">
-            <button class="btn btn-primary">บันทึก</button>
+            <button type="submit" class="btn btn-primary">Save</button>
           </div>
         </div>
       </form>
     </section>
-    
+
     <div class="form-control">
-        <div class="flex">
-            <RouterLink to="/teachers" class="btn btn-outline">Back</RouterLink>
-        </div>
+      <div class="flex">
+        <RouterLink to="/teachers" class="btn btn-outline">Back</RouterLink>
       </div>
+    </div>
   </AdminLayout>
 </template>

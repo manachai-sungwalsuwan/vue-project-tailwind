@@ -48,9 +48,9 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
 						<input type="file" class="file-input w-full max-w-xs">
 					</div>
         </div>
-        <div class="form-control">
+        <div class="form-control mt-3">
           <div class="text-center">
-            <button class="btn btn-primary">บันทึก</button>
+            <button class="btn btn-primary">Save</button>
           </div>
         </div>
       </form>
