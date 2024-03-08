@@ -1,66 +1,171 @@
 <script setup>
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import http from "@/http-common";
+
 import AdminLayout from "@/layouts/AdminLayout.vue";
 import ButtonEdit from "@/components/ButtonEdit.vue";
 import ButtonDelete from "@/components/ButtonDelete.vue";
-import Pagination from "@/components/Pagination.vue";
+import Swal from "sweetalert2";
+import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 
-const dataList = [
-  {
-    levelId: "1",
-    levelName: "Level 1",
-  },
-  {
-    levelId: "2",
-    levelName: "Level 2",
-  },
-  {
-    levelId: "3",
-    levelName: "Level 3",
-  },
+const router = useRouter();
+
+const dataList = ref([]);
+const levelData = ref({
+  LevelId: 0,
+  LevelName: "",
+});
+const mode = ref("create");
+
+const headers = [
+  { text: "#", value: "LevelId", width: 200 },
+  { text: "Level", value: "LevelName" },
 ];
+//const themeColor = "#f48225";
+const searchField = ref("LevelName");
+const searchValue = ref("");
+
+onMounted(() => {
+  loadData();
+});
+
+const loadData = async () => {
+  try {
+    const response = await http.get("/levels");
+    if (response.status == 200) {
+      dataList.value = response.data;
+    }
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
+const submitForm = async () => {
+  try {
+    if (mode.value === "create") {
+      await http.post("/levels", levelData.value).then((response) => {
+        showModal(false);
+        Swal.fire({
+          title: response.data.message,
+          icon: "success",
+        }).then(() => {
+          loadData();
+        });
+      });
+    } else {
+      await http
+        .put(`/levels/${levelData.value.LevelId}`, levelData.value)
+        .then((response) => {
+          showModal(false);
+          Swal.fire({
+            title: response.data.message,
+            icon: "success",
+          }).then(() => {
+            loadData();
+          });
+        });
+    }
+  } catch (error) {
+    showModal(false);
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+    });
+  }
+};
+
+const createLevel = () => {
+  mode.value = "create";
+  showModal(true);
+};
+
+const editLevel = async (item) => {
+  mode.value = "update";
+  try {
+    const response = await http.get(`/levels/${item.LevelId}`);
+    if (response.data) {
+      levelData.value = response.data;
+      showModal(true);
+    }
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
+const deleteLevel = (item) => {
+  try {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#2b49ff",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        var response = await http.delete(`/levels/${item.LevelId}`);
+        Swal.fire({
+          title: response.data.message,
+          icon: "success",
+        }).then(() => {
+          loadData();
+        });
+      }
+    });
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
+const showModal = (isShow) => {
+  if (isShow) {
+    document.getElementById("levelModal").showModal();
+  } else {
+    document.getElementById("levelModal").close();
+  }
+};
 </script>
 
 <template>
   <AdminLayout>
-    <!-- card -->
     <section class="card col-span-12 overflow-hidden bg-base-100 shadow-sm">
       <div class="card-body grow-0">
-        <div class="flex justify-between gap-2">
-          <h2 class="card-title grow">
-            <!-- <a class="link-hover link">Recent user transactions</a> -->
-          </h2>
-          <button
-            class="btn btn-primary float-right"
-            onclick="levelModal.showModal()"
+        <div class="overflow-x-auto">
+          <div class="flex justify-between gap-2 mb-3">
+            <button class="btn btn-primary" @click="createLevel()">
+              Create
+            </button>
+            <div class="input input-bordered flex items-center gap-2">
+              <input type="text" class="grow" placeholder="Search" v-model="searchValue" />
+              <MagnifyingGlassIcon
+                class="w-4 h-4 opacity-70"
+              ></MagnifyingGlassIcon>
+            </div>
+          </div>
+          <EasyDataTable
+            :headers="headers"
+            :items="dataList"
+            :rows-per-page="10"
+            :search-field="searchField"
+            :search-value="searchValue"
+            border-cell
+            buttons-pagination
+            header-text-direction="center"
+            table-class-name="customize-table"
           >
-            Create
-          </button>
+            <template #item-levelid="item">
+              <div class="flex justify-center gap-2">
+                <ButtonEdit @click="editLevel(item)"></ButtonEdit>
+                <ButtonDelete @click="deleteLevel(item)"></ButtonDelete>
+              </div>
+            </template>
+          </EasyDataTable>
         </div>
       </div>
-      <div class="overflow-x-auto">
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="text-center w-32">#</th>
-              <th class="text-center">Level Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="data in dataList" :key="data.levelId" class="hover">
-              <td>
-                <div class="flex justify-center gap-2">
-                  <ButtonEdit></ButtonEdit>
-                  <ButtonDelete></ButtonDelete>
-                </div>
-              </td>
-              <td>{{ data.levelName }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <Pagination></Pagination>
     </section>
-    <!-- /card -->
 
     <dialog id="levelModal" class="modal">
       <div class="modal-box">
@@ -71,19 +176,24 @@ const dataList = [
             ✕
           </button>
         </form>
-        <h3 class="font-bold text-lg">Create Level</h3>
-        <div class="form-control w-full mt-3">
-          <div class="label">
-            <span class="label-text">Level</span>
+        <h3 class="font-bold text-lg">{{ mode === 'create' ? 'Create' : 'Update' }} Level</h3>
+        <form @submit.prevent="submitForm">
+          <input type="hidden" v-model="levelData.LevelId" />
+          <div class="form-control w-full mt-3">
+            <div class="label">
+              <span class="label-text">Level</span>
+            </div>
+            <input
+              type="text"
+              v-model="levelData.LevelName"
+              class="input input-bordered w-full"
+              required
+            />
           </div>
-          <input
-            type="text"
-            class="input input-bordered w-full"
-          />
-        </div>
-        <div class="modal-action">
-          <button class="btn btn-primary">Save</button>
-        </div>
+          <div class="modal-action">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
       </div>
     </dialog>
   </AdminLayout>
