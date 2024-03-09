@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import http from "@/http-common";
+import { useLevelStore } from '@/stores/level';
 
 import AdminLayout from "@/layouts/AdminLayout.vue";
 import ButtonEdit from "@/components/ButtonEdit.vue";
@@ -9,9 +8,8 @@ import ButtonDelete from "@/components/ButtonDelete.vue";
 import Swal from "sweetalert2";
 import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 
-const router = useRouter();
+const levelStore = useLevelStore();
 
-const dataList = ref([]);
 const levelData = ref({
   LevelId: 0,
   LevelName: "",
@@ -26,45 +24,34 @@ const headers = [
 const searchField = ref("LevelName");
 const searchValue = ref("");
 
-onMounted(() => {
-  loadData();
+onMounted(async () => {
+  await levelStore.loadLevels()
 });
-
-const loadData = async () => {
-  try {
-    const response = await http.get("/levels");
-    if (response.status == 200) {
-      dataList.value = response.data;
-    }
-  } catch (error) {
-    console.log("error", error);
-  }
-};
 
 const submitForm = async () => {
   try {
     if (mode.value === "create") {
-      await http.post("/levels", levelData.value).then((response) => {
+      const response = await levelStore.createLevel(levelData.value);
+      if (response.data) {
         showModal(false);
         Swal.fire({
           title: response.data.message,
           icon: "success",
-        }).then(() => {
-          loadData();
+        }).then(async () => {
+          await levelStore.loadLevels()
         });
-      });
+      }
     } else {
-      await http
-        .put(`/levels/${levelData.value.LevelId}`, levelData.value)
-        .then((response) => {
-          showModal(false);
-          Swal.fire({
-            title: response.data.message,
-            icon: "success",
-          }).then(() => {
-            loadData();
-          });
+      const response = await levelStore.updateLevel(levelData.value.LevelId, levelData.value);
+      if (response.data) {
+        showModal(false);
+        Swal.fire({
+          title: response.data.message,
+          icon: "success",
+        }).then(async () => {
+          await levelStore.loadLevels()
         });
+      }
     }
   } catch (error) {
     showModal(false);
@@ -78,19 +65,17 @@ const submitForm = async () => {
 
 const createLevel = () => {
   mode.value = "create";
+  levelData.value.LevelId = 0
+  levelData.value.LevelName = ''
   showModal(true);
 };
 
 const editLevel = async (item) => {
   mode.value = "update";
-  try {
-    const response = await http.get(`/levels/${item.LevelId}`);
-    if (response.data) {
-      levelData.value = response.data;
-      showModal(true);
-    }
-  } catch (error) {
-    console.log("error", error);
+  const response = await levelStore.getLevel(item.LevelId);
+  if (response.data) {
+    levelData.value = response.data;
+    showModal(true);
   }
 };
 
@@ -106,12 +91,12 @@ const deleteLevel = (item) => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        var response = await http.delete(`/levels/${item.LevelId}`);
+        var response = await levelStore.deleteLevel(item.LevelId);
         Swal.fire({
           title: response.data.message,
           icon: "success",
-        }).then(() => {
-          loadData();
+        }).then(async () => {
+          await levelStore.loadLevels()
         });
       }
     });
@@ -140,22 +125,12 @@ const showModal = (isShow) => {
             </button>
             <div class="input input-bordered flex items-center gap-2">
               <input type="text" class="grow" placeholder="Search" v-model="searchValue" />
-              <MagnifyingGlassIcon
-                class="w-4 h-4 opacity-70"
-              ></MagnifyingGlassIcon>
+              <MagnifyingGlassIcon class="w-4 h-4 opacity-70"></MagnifyingGlassIcon>
             </div>
           </div>
-          <EasyDataTable
-            :headers="headers"
-            :items="dataList"
-            :rows-per-page="10"
-            :search-field="searchField"
-            :search-value="searchValue"
-            border-cell
-            buttons-pagination
-            header-text-direction="center"
-            table-class-name="customize-table"
-          >
+          <EasyDataTable :headers="headers" :items="levelStore.list" :rows-per-page="10" :search-field="searchField"
+            :search-value="searchValue" border-cell buttons-pagination header-text-direction="center"
+            table-class-name="customize-table">
             <template #item-levelid="item">
               <div class="flex justify-center gap-2">
                 <ButtonEdit @click="editLevel(item)"></ButtonEdit>
@@ -170,25 +145,18 @@ const showModal = (isShow) => {
     <dialog id="levelModal" class="modal">
       <div class="modal-box">
         <form method="dialog">
-          <button
-            class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-          >
+          <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
             ✕
           </button>
         </form>
-        <h3 class="font-bold text-lg">{{ mode === 'create' ? 'Create' : 'Update' }} Level</h3>
+        <h3 class="font-bold text-lg">{{ mode === 'create' ? 'Create' : 'Edit' }} Level</h3>
         <form @submit.prevent="submitForm">
           <input type="hidden" v-model="levelData.LevelId" />
           <div class="form-control w-full mt-3">
             <div class="label">
               <span class="label-text">Level</span>
             </div>
-            <input
-              type="text"
-              v-model="levelData.LevelName"
-              class="input input-bordered w-full"
-              required
-            />
+            <input type="text" v-model="levelData.LevelName" class="input input-bordered w-full" required />
           </div>
           <div class="modal-action">
             <button type="submit" class="btn btn-primary">Save</button>
