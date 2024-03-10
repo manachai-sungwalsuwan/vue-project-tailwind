@@ -1,14 +1,16 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { RouterLink } from "vue-router";
+import { useRouter, RouterLink } from "vue-router";
 import { useTopicStore } from '@/stores/topic';
 
 import AdminLayout from "@/layouts/AdminLayout.vue"
 import ButtonEdit from "@/components/ButtonEdit.vue"
 import ButtonDelete from "@/components/ButtonDelete.vue"
 import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
+import Swal from "sweetalert2"
 
 const topicStore = useTopicStore();
+const router = useRouter()
 
 const headers = [
   { text: "#", value: "TopicId", width: 200 },
@@ -22,6 +24,9 @@ const searchValue = ref("");
 onMounted(async () => {
   await topicStore.loadTopics()
 });
+const editTopic = (item) => {
+  router.push({name: 'topics-edit', params: { id: item.TopicId }})
+}
 
 const deleteTopic = (item) => {
   try {

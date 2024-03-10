@@ -14,7 +14,7 @@ const levelData = ref({
   LevelId: 0,
   LevelName: "",
 });
-const mode = ref("create");
+const mode = ref('ADD')
 
 const headers = [
   { text: "#", value: "LevelId", width: 200 },
@@ -30,28 +30,22 @@ onMounted(async () => {
 
 const submitForm = async () => {
   try {
-    if (mode.value === "create") {
-      const response = await levelStore.createLevel(levelData.value);
-      if (response.data) {
-        showModal(false);
-        Swal.fire({
-          title: response.data.message,
-          icon: "success",
-        }).then(async () => {
-          await levelStore.loadLevels()
-        });
-      }
+    let response = null
+
+    if (mode.value === "ADD") {
+      response = await levelStore.createLevel(levelData.value);
     } else {
-      const response = await levelStore.updateLevel(levelData.value.LevelId, levelData.value);
-      if (response.data) {
-        showModal(false);
-        Swal.fire({
-          title: response.data.message,
-          icon: "success",
-        }).then(async () => {
-          await levelStore.loadLevels()
-        });
-      }
+      response = await levelStore.updateLevel(levelData.value.LevelId, levelData.value);
+    }
+
+    if (response.data) {
+      showModal(false);
+      Swal.fire({
+        title: response.data.message,
+        icon: "success",
+      }).then(async () => {
+        await levelStore.loadLevels()
+      });
     }
   } catch (error) {
     showModal(false);
@@ -64,14 +58,14 @@ const submitForm = async () => {
 };
 
 const createLevel = () => {
-  mode.value = "create";
+  mode.value = 'ADD'
   levelData.value.LevelId = 0
   levelData.value.LevelName = ''
   showModal(true);
 };
 
 const editLevel = async (item) => {
-  mode.value = "update";
+  mode.value = 'EDIT'
   const response = await levelStore.getLevel(item.LevelId);
   if (response.data) {
     levelData.value = response.data;
@@ -149,7 +143,7 @@ const showModal = (isShow) => {
             ✕
           </button>
         </form>
-        <h3 class="font-bold text-lg">{{ mode === 'create' ? 'Create' : 'Edit' }} Level</h3>
+        <h3 class="font-bold text-lg">{{ mode === 'ADD' ? 'Create' : 'Edit' }} Level</h3>
         <form @submit.prevent="submitForm">
           <input type="hidden" v-model="levelData.LevelId" />
           <div class="form-control w-full mt-3">
