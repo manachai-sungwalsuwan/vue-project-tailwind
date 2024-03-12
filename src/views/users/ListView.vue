@@ -14,14 +14,18 @@ const userStore = useUserStore();
 
 const headers = [
   { text: "#", value: "UserId", width: 200 },
-  { text: "Username", value: "Username" },
+  { text: "Username", value: "Username", sortable: true },
   { text: "Role", value: "Roles" },
+  { text: "Store", value: "Stores" },
 ];
 const searchField = ref("Username");
 const searchValue = ref("");
+const loading = ref(false);
 
 onMounted(async () => {
+  loading.value = true;
   await userStore.loadUsers()
+  loading.value = false;
 });
 
 const editUser = (item) => {
@@ -73,7 +77,7 @@ const deleteUser= (item) => {
         <div class="overflow-x-auto">
           <EasyDataTable :headers="headers" :items="userStore.list" :rows-per-page="10" :search-field="searchField"
             :search-value="searchValue" border-cell buttons-pagination header-text-direction="center"
-            table-class-name="customize-table">
+            table-class-name="customize-table" :loading="loading">
             <template #item-userid="item">
               <div class="flex justify-center gap-2">
                 <ButtonEdit @click="editUser(item)"></ButtonEdit>
@@ -83,6 +87,11 @@ const deleteUser= (item) => {
             <template #item-roles="item">
               <p v-for="role in item.Roles" :key="role.RoleName">
                 - {{ role.RoleName  }}
+              </p>
+            </template>
+            <template #item-stores="item">
+              <p v-for="store in item.Stores" :key="store.RoleName">
+                - {{ store.StoreName  }}
               </p>
             </template>
           </EasyDataTable>

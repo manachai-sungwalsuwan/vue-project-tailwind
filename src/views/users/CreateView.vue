@@ -49,8 +49,13 @@ onMounted(async () => {
     const selectedUser = response.data.result
     userData.UserId = selectedUser.UserId
     userData.Username = selectedUser.Username
-    userData.RoleId = selectedUser.RoleId
-    userData.StoreId = selectedUser.StoreId
+    userData.Password = selectedUser.Password
+    userData.Roles = selectedUser.Roles.map(role => {
+      return role.RoleId
+    })
+    userData.Stores = selectedUser.Stores.map(store => {
+      return store.StoreId
+    })
   }
 })
 
@@ -98,7 +103,7 @@ const updateUser = async () => {
             <label class="label">
               <span class="label-text">Password</span>
             </label>
-            <input type="password" required="" class="input input-bordered font-mono" v-model="userData.Password" />
+            <input type="password" required="" :disabled="mode == 'EDIT'" class="input input-bordered font-mono" v-model="userData.Password" />
           </div>
         </div>
         <div class="grid grid-cols-2 gap-2">
@@ -109,10 +114,6 @@ const updateUser = async () => {
             </label>
             <Multiselect v-model="userData.Roles" mode="tags" placeholder="Choose a role" required :searchable="true"
               :options="optionRoles" />
-            <!-- <select class="select select-bordered" multiple name="Roles[]" v-model="userData.Roles" required>
-							<option disabled="" selected="" value="">== select ==</option>
-							<option v-for="role in roleStore.list" :value="role.RoleId">{{ role.RoleName }}</option>
-						</select> -->
           </div>
           <div class="form-control">
             <label class="label">
@@ -120,10 +121,6 @@ const updateUser = async () => {
             </label>
             <Multiselect v-model="userData.Stores" mode="tags" placeholder="Choose a store" required :searchable="true"
               :options="optionStores" />
-            <!-- <select class="select select-bordered" multiple name="Stores[]" v-model="userData.Stores" required>
-							<option disabled="" selected="" value="">== select ==</option>
-							<option v-for="store in storeStore.list" :value="store.StoreId">{{ store.StoreName }}</option>
-						</select> -->
           </div>
         </div>
         <div class="form-control mt-3">

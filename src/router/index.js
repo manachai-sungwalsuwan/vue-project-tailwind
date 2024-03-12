@@ -145,6 +145,11 @@ const router = createRouter({
             component: UserCreate
         },
         {
+            path: '/users/edit/:id',
+            name: 'users-edit',
+            component: UserCreate
+        },
+        {
             path: '/roles',
             name: 'roles',
             component: RoleList
