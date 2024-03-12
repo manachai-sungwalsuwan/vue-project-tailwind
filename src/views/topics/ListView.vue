@@ -24,6 +24,7 @@ const searchValue = ref("");
 onMounted(async () => {
   await topicStore.loadTopics()
 });
+
 const editTopic = (item) => {
   router.push({name: 'topics-edit', params: { id: item.TopicId }})
 }
