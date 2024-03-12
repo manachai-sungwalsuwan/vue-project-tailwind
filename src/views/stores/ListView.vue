@@ -20,12 +20,15 @@ const headers = [
   { text: "#", value: "StoreId", width: 200 },
   { text: "Store", value: "StoreName" },
   { text: "Head Quarter", value: "IsStoreHQ", width: 200 },
-];
-const searchField = ref("StoreName");
-const searchValue = ref("");
+]
+const searchField = ref("StoreName")
+const searchValue = ref("")
+const loading = ref(false)
 
 onMounted(async () => {
+  loading.value = true
   await storeStore.loadStores()
+  loading.value = false
 })
 
 const submitForm = async () => {
@@ -136,7 +139,7 @@ const showModal = (isShow) => {
           </div>
           <EasyDataTable :headers="headers" :items="storeStore.list" :rows-per-page="10" :search-field="searchField"
             :search-value="searchValue" border-cell buttons-pagination header-text-direction="center"
-            table-class-name="customize-table">
+            table-class-name="customize-table" :loading="loading">
             <template #item-storeid="item">
               <div class="flex justify-center gap-2">
                 <ButtonEdit @click="editStore(item)"></ButtonEdit>

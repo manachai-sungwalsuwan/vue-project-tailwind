@@ -7,6 +7,13 @@ export const useRoleStore = defineStore("role", {
     state: () => ({
         list: []
     }),
+    getters: {
+        optionRoles: (state) => {
+            return state.list.map(role => {
+                return { value: role.RoleId, label: role.RoleName }
+            })
+        },
+    },
     actions: {
         async loadRoles () {
             try {

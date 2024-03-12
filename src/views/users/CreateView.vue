@@ -33,13 +33,8 @@ onMounted(async () => {
   await roleStore.loadRoles()
   await storeStore.loadStores()
 
-  optionRoles.value = roleStore.list.map(role => {
-    return { value: role.RoleId, label: role.RoleName }
-  })
-
-  optionStores.value = storeStore.list.map(store => {
-    return { value: store.StoreId, label: store.StoreName }
-  })
+  optionRoles.value = roleStore.optionRoles
+  optionStores.value = storeStore.optionStores
 
   if (route.params.id) {
     userIndex.value = route.params.id

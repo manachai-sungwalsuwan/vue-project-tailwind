@@ -19,13 +19,16 @@ const mode = ref('ADD')
 const headers = [
   { text: "#", value: "LevelId", width: 200 },
   { text: "Level", value: "LevelName" },
-];
+]
 //const themeColor = "#f48225";
-const searchField = ref("LevelName");
-const searchValue = ref("");
+const searchField = ref("LevelName")
+const searchValue = ref("")
+const loading = ref(false)
 
 onMounted(async () => {
+  loading.value = true
   await levelStore.loadLevels()
+  loading.value = false
 });
 
 const submitForm = async () => {
@@ -95,7 +98,11 @@ const deleteLevel = (item) => {
       }
     });
   } catch (error) {
-    console.log("error", error);
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+    })
   }
 };
 
@@ -124,7 +131,7 @@ const showModal = (isShow) => {
           </div>
           <EasyDataTable :headers="headers" :items="levelStore.list" :rows-per-page="10" :search-field="searchField"
             :search-value="searchValue" border-cell buttons-pagination header-text-direction="center"
-            table-class-name="customize-table">
+            table-class-name="customize-table" :loading="loading">
             <template #item-levelid="item">
               <div class="flex justify-center gap-2">
                 <ButtonEdit @click="editLevel(item)"></ButtonEdit>

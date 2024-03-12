@@ -96,7 +96,6 @@ const dataList = [
           </tbody>
         </table>
       </div>
-      <Pagination></Pagination>
     </section>
 
     <dialog id="modalCertificate" class="modal">

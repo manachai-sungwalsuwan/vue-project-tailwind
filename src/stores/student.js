@@ -1,21 +1,14 @@
 import { defineStore } from "pinia"
 import http from "@/http-common";
 
-const endpoint = "/stores";
+const endpoint = "/students";
 
-export const useStoreStore = defineStore("store", {
+export const useStudentStore = defineStore("student", {
     state: () => ({
-        list: [],
+        list: []
     }),
-    getters: {
-        optionStores: (state) => {
-            return state.list.map(store => {
-                return { value: store.StoreId, label: store.StoreName }
-            })
-        },
-    },
     actions: {
-        async loadStores () {
+        async loadStudents () {
             try {
                 const response = await http.get(endpoint);
                 if (response.status == 200) {
@@ -25,30 +18,30 @@ export const useStoreStore = defineStore("store", {
                 console.log("error", error);
             }
         },
-        async getStore (storeId) {
+        async getStudent (studentId) {
             try {
-                return await http.get(`${endpoint}/${storeId}`);
+                return await http.get(`${endpoint}/${studentId}`);
             } catch (error) {
                 console.log("error", error);
             }
         },
-        async createStore (storeData) {
+        async createStudent (studentData) {
             try {
-                return await http.post(endpoint, storeData);
+                return await http.post(endpoint, studentData);
             } catch (error) {
                 console.log("error", error);
             }
         },
-        async updateStore (storeId, storeData) {
+        async updateStudent (studentId, studentData) {
             try {
-                return await http.put(`${endpoint}/${storeId}`, storeData);
+                return await http.put(`${endpoint}/${studentId}`, studentData);
             } catch (error) {
                 console.log("error", error);
             }
         },
-        async deleteStore (storeId) {
+        async deleteStudent (studentId) {
             try {
-                return await http.delete(`${endpoint}/${storeId}`);
+                return await http.delete(`${endpoint}/${studentId}`);
             } catch (error) {
                 console.log("error", error);
             }

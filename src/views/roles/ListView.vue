@@ -19,12 +19,15 @@ const mode = ref('ADD')
 const headers = [
   { text: "#", value: "RoleId", width: 200 },
   { text: "Role", value: "RoleName" },
-];
-const searchField = ref("RoleName");
-const searchValue = ref("");
+]
+const searchField = ref("RoleName")
+const searchValue = ref("")
+const loading = ref(false)
 
 onMounted(async () => {
+  loading.value = true
   await roleStore.loadRoles()
+  loading.value = false
 })
 
 const submitForm = async () => {
@@ -135,7 +138,7 @@ const showModal = (isShow) => {
           </div>
           <EasyDataTable :headers="headers" :items="roleStore.list" :rows-per-page="10" :search-field="searchField"
             :search-value="searchValue" border-cell buttons-pagination header-text-direction="center"
-            table-class-name="customize-table">
+            table-class-name="customize-table" :loading="loading">
             <template #item-roleid="item">
               <div class="flex justify-center gap-2">
                 <ButtonEdit @click="editRole(item)"></ButtonEdit>

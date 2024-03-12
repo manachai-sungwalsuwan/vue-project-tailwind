@@ -9,20 +9,23 @@ import ButtonDelete from "@/components/ButtonDelete.vue"
 import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import Swal from "sweetalert2"
 
-const topicStore = useTopicStore();
+const topicStore = useTopicStore()
 const router = useRouter()
+const loading = ref(false)
 
 const headers = [
   { text: "#", value: "TopicId", width: 200 },
   { text: "Topic Code", value: "TopicCode" },
   { text: "Topic Name", value: "TopicName" },
   { text: "Level", value: "Level.LevelName" },
-];
-const searchField = ref("TopicCode");
-const searchValue = ref("");
+]
+const searchField = ref("TopicCode")
+const searchValue = ref("")
 
 onMounted(async () => {
+  loading.value = true
   await topicStore.loadTopics()
+  loading.value = false
 });
 
 const editTopic = (item) => {
@@ -51,7 +54,11 @@ const deleteTopic = (item) => {
       }
     });
   } catch (error) {
-    console.log("error", error);
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+    })
   }
 };
 </script>
@@ -70,7 +77,7 @@ const deleteTopic = (item) => {
         <div class="overflow-x-auto">
           <EasyDataTable :headers="headers" :items="topicStore.list" :rows-per-page="10" :search-field="searchField"
             :search-value="searchValue" border-cell buttons-pagination header-text-direction="center"
-            table-class-name="customize-table">
+            table-class-name="customize-table" :loading="loading">
             <template #item-topicid="item">
               <div class="flex justify-center gap-2">
                 <ButtonEdit @click="editTopic(item)"></ButtonEdit>
