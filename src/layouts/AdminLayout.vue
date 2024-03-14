@@ -1,10 +1,13 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
-import { RouterLink, useRoute } from "vue-router";
+import { ref, onMounted, computed } from "vue"
+import { RouterLink, useRoute } from "vue-router"
+import { useAuthStore } from '@/stores/auth' 
 
-import { BeakerIcon } from "@heroicons/vue/20/solid";
+import { BeakerIcon } from "@heroicons/vue/20/solid"
 
-const route = useRoute();
+const route = useRoute()
+
+const authStore = useAuthStore()
 
 const menuList = [
   {
@@ -47,7 +50,7 @@ const menuList = [
               ></svg>`,
     route: "/camps",
   },
-];
+]
 
 const subMenuList = [
   "users",
@@ -57,13 +60,13 @@ const subMenuList = [
   "topics-create",
   "levels",
   "stores",
-];
+]
 
-const activeMenu = ref("");
+const activeMenu = ref("")
 
 onMounted(() => {
-  activeMenu.value = route.name.toLocaleLowerCase();
-});
+  activeMenu.value = route.name.toLocaleLowerCase()
+})
 
 const isActive = ((menu) => {
   return route.path.toLocaleLowerCase().split('/')[1] === menu.split('/')[1] ? 'active' : ''
@@ -95,7 +98,7 @@ const isActive = ((menu) => {
               {{ activeMenu.toLocaleUpperCase() }}
             </h1>
           </div>
-          <div><span>Store: Head Quarter</span></div>
+          <div><span>Store: {{ authStore.user != null ? authStore.user.Stores[0].StoreName : '' }}</span></div>
           <!-- dropdown -->
           <div class="dropdown-end dropdown z-10">
             <div tabindex="0" class="avatar btn btn-circle btn-ghost">
@@ -111,7 +114,7 @@ const isActive = ((menu) => {
               <li>
                 <a>Profile</a>
               </li>
-              <li><RouterLink to="/login">Logout</RouterLink></li>
+              <li><button type="button" @click="authStore.logout">Logout</button></li>
             </ul>
           </div>
           <!-- /dropdown -->

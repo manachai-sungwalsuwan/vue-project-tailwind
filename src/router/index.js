@@ -1,13 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router' 
+import { useAuthStore } from '@/stores/auth' 
 import Login from '@/views/LoginView.vue'
 import DashBoard from '@/views/DashBoardView.vue'
 
-import StudentList from '@/views/students/ListView.vue'
-import StudentCreate from '@/views/students/CreateView.vue'
-import StudentDetail from '@/views/students/DetailView.vue'
-
-import TeacherList from '@/views/teachers/ListView.vue'
-import TeacherCreate from '@/views/teachers/CreateView.vue'
+import studentRoutes from './student.routes'
+import teacherRoutes from './teacher.routes'
 
 import ScheduleList from '@/views/schedules/ListView.vue'
 import ScheduleCreate from '@/views/schedules/CreateView.vue'
@@ -44,41 +41,8 @@ const router = createRouter({
             name: 'dashboard',
             component: DashBoard
         },
-        {
-            path: '/students',
-            name: 'students',
-            component: StudentList
-        },
-        {
-            path: '/students/create',
-            name: 'students-create',
-            component: StudentCreate
-        },
-        {
-            path: '/students/edit/:id',
-            name: 'students-edit',
-            component: StudentCreate
-        },
-        {
-            path: '/students/detail/:id',
-            name: 'students-detail',
-            component: StudentDetail
-        },
-        {
-            path: '/teachers',
-            name: 'teachers',
-            component: TeacherList
-        },
-        {
-            path: '/teachers/create',
-            name: 'teachers-create',
-            component: TeacherCreate
-        },
-        {
-            path: '/teachers/edit/:id',
-            name: 'teachers-edit',
-            component: TeacherCreate
-        },
+        { ...studentRoutes },
+        { ...teacherRoutes },
         {
             path: '/schedules',
             name: 'schedules',
@@ -154,7 +118,20 @@ const router = createRouter({
             name: 'roles',
             component: RoleList
         },
+        // catch all redirect to home page
+        { path: '/:pathMatch(.*)*', redirect: '/' }
     ]
+})
+
+router.beforeEach(async (to) => {
+    const publicPages = ['/login'];
+    const authRequired = !publicPages.includes(to.path)
+    const authStore = useAuthStore()
+
+    if (authRequired && !authStore.user) {
+        authStore.returnUrl = to.fullPath;
+        return '/login';
+    }
 })
 
 export default router
