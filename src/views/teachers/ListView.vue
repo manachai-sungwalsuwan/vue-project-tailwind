@@ -14,7 +14,7 @@ const teacherStore = useTeacherStore()
 
 const headers = [
   { text: "#", value: "TeacherId", width: 200 },
-  { text: "Student", value: "TeacherFullName", sortable: true },
+  { text: "Fullname", value: "TeacherFullName", sortable: true },
   { text: "Nickname", value: "TeacherNickName", sortable: true },
 ]
 const searchField = ref(["TeacherFullName", "TeacherNickName"])

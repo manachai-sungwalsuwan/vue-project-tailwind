@@ -10,10 +10,10 @@ export const useTeacherStore = defineStore("teacher", {
     actions: {
         async loadTeachers () {
             try {
-                // const response = await http.get(endpoint);
-                // if (response.status == 200) {
-                //     this.list = response.data.result;
-                // }
+                const response = await http.get(endpoint);
+                if (response.status == 200) {
+                    this.list = response.data.result;
+                }
             } catch (error) {
                 console.log("error", error);
             }
