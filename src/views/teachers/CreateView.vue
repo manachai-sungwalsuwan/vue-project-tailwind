@@ -41,7 +41,7 @@ onMounted(async () => {
   }
 })
 
-const onSubmit = () => {
+const onSubmit = async () => {
   try {
     let response = null
 
